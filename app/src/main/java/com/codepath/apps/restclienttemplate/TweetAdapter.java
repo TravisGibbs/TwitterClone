@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -21,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -34,11 +36,17 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     Context context;
     List<Tweet> likedTweets;
     List<Tweet> rtTweets;
+    TwitterClient twitterClient;
+    List<Tweet> tweets;
+    String Tag = "TweetAdapter";
+
 
     public TweetAdapter(Context context, List<Tweet> tweets) {
         this.context = context;
         this.tweets = tweets;
-        /*
+        likedTweets = new ArrayList<>();
+        rtTweets = new ArrayList<>();
+        twitterClient = TwitterApp.getRestClient(context);
         twitterClient.lookForLikedTweets(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -79,14 +87,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             }
         });
 
-         */
+
     }
 
 
 
-    List<Tweet> tweets;
-    TwitterClient twitterClient;
-    String Tag = "TweetAdapter";
+
 
     @NonNull
     @Override
@@ -144,27 +150,27 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             btReply = itemView.findViewById(R.id.replyButton);
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(final Tweet tweet) {
-            twitterClient = TwitterApp.getRestClient(context);
             //grab liked tweets
             //editor encounters error when I try to make these boolean
 
 
-            final Boolean[] interacts = {true, true}; //{false, false};
-            /*
+            final Boolean[] interacts = {false, false};
+
             for(int i = 0; i<likedTweets.size(); i++){
                 if(likedTweets.get(i).id==tweet.id){
                     interacts[0] = true;
-                    btRetweet.setImageResource(R.drawable.ic_vector_heart);
+                    btLike.setImageResource(R.drawable.ic_vector_heart);
                 }
             }
             for(int i = 0; i<rtTweets.size(); i++){
                 if(rtTweets.get(i).id==tweet.id){
                     interacts[1] = true;
-                    btLike.setImageResource(R.drawable.ic_vector_retweet);
+                    btRetweet.setImageResource(R.drawable.ic_vector_retweet);
                 }
             }
-            */
+
 
             tvBody.setText(tweet.body);
             tvScreen.setText("@" + tweet.user.screenName);
@@ -185,7 +191,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             btLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //if (interacts[0]) {
+                    if (!interacts[0]) {
                         twitterClient.likeTweet(new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -199,16 +205,56 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
 
                             }
                         }, tweet);
-                    //}
-                    //else{
-                        //remove tweet here
-                    //}
+                    }
+                    else{
+                        twitterClient.removeLikeTweet(new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                btLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                                Log.i(Tag, "tweet luniked");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(Tag, "like failed", throwable);
+                            }
+                        }, tweet);
+                    }
                 }
             });
 
             btRetweet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(!interacts[1]){
+                        twitterClient.rtTweet(new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                btRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                                Log.i(Tag, "tweet rted");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(Tag, "rt failed", throwable);
+                            }
+                        }, tweet);
+                    }
+                    else{
+                        twitterClient.removeRtTweet(new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                btRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                                Log.i(Tag, "tweet un_rted");
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(Tag,"fail rted", throwable);
+                            }
+                        },tweet);
+
+                    }
                 }
             });
 
@@ -218,6 +264,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
 
                 }
             });
+            interacts[0] = false;
+            interacts[1] = false;
 
 
         }
