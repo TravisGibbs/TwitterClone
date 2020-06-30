@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/background"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/userPic"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/user_picture"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/twtUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_toEndOf="@+id/userPic"
+        android:textColor="@android:color/background_dark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="screenname" />
+
+    <TextView
+        android:id="@+id/twtBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/twtUser"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toEndOf="@+id/userPic"
+        android:textColor="@android:color/background_dark"
+        android:textSize="12sp"
+        tools:text="This is a pretty basic example of a tweet" />
+
+    <TextView
+        android:id="@+id/twtAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/twtUser"
+        tools:text="username" />
+
+    <TextView
+        android:id="@+id/twtCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/twtAt"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/twtAt"
+        android:textSize="8sp"
+        tools:text="-date/here"
+        tools:ignore="SmallSp" />
+
+    <ImageButton
+        android:id="@+id/likeButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/twtBody"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="100dp"
+        android:background="@drawable/background_border"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+
+    <ImageButton
+        android:id="@+id/retweetButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/twtBody"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_toStartOf="@+id/likeButton"
+        android:background="@drawable/background_border"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+    <ImageButton
+        android:id="@+id/replyButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/twtBody"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_toStartOf="@+id/retweetButton"
+        android:background="@drawable/background_border"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_vector_compose" />
+</RelativeLayout>

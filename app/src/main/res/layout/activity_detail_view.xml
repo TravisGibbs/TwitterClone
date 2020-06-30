@@ -1,0 +1,141 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/retweetButtonDetail"
+
+        android:layout_marginTop="0dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="140"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Tweet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minLines="6"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/background_dark"
+            android:textColorHighlight="@color/twtBlue"
+            android:textColorLink="@color/twtBlue"
+            tools:text="Reply to" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/userPicDetail"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/user_picture"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/twtUserDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_toEndOf="@+id/userPicDetail"
+        android:textColor="@android:color/background_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="screenname" />
+
+    <TextView
+        android:id="@+id/twtBodyDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/twtUserDetail"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toEndOf="@+id/userPicDetail"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp"
+        tools:text="This is a pretty basic example of a tweet" />
+
+    <TextView
+        android:id="@+id/twtAtDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/twtUserDetail"
+        tools:text="username" />
+
+    <TextView
+        android:id="@+id/twtCreatedDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/twtAt"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/twtAtDetail"
+        android:textSize="8sp"
+        tools:ignore="SmallSp"
+        tools:text="-date/here" />
+
+    <ImageButton
+        android:id="@+id/likeButtonDetail"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/twtBodyDetail"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="100dp"
+        android:background="@drawable/background_border"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+
+    <ImageButton
+        android:id="@+id/retweetButtonDetail"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/twtBodyDetail"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_toStartOf="@+id/likeButtonDetail"
+        android:background="@drawable/background_border"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+    <ImageButton
+        android:id="@+id/replyButtonDetail"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/twtBodyDetail"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_toStartOf="@+id/retweetButtonDetail"
+        android:background="@drawable/background_border"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_vector_compose" />
+
+    <Button
+        android:id="@+id/postButtonDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textField"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="Button"
+        android:textColor="@android:color/background_light" />
+</RelativeLayout>

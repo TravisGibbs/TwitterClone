@@ -1,0 +1,38 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="Theme.MaterialComponents.Light">
+
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+
+        -->
+    </style>
+
+    <style name="Widget.Design.TextInputLayout" parent="AppTheme">
+        <item name="counterTextAppearance">@style/TextAppearance.Design.Counter</item>
+        <item name="counterOverflowTextAppearance">@style/TextAppearance.Design.Counter.Overflow
+        </item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/twtBlue</item>
+        <item name="colorPrimaryDark">@color/twtBlue</item>
+        <item name="colorSecondary">@color/twtBlue</item>
+        <item name="colorError">#F44336</item>
+        <item name="android:colorBackground">@color/whiteS</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Application theme. -->
+
+
+</resources>
