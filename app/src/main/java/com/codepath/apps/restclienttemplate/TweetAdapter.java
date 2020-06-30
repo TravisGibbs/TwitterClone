@@ -197,6 +197,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 btLike.setImageResource(R.drawable.ic_vector_heart);
                                 Log.i(Tag, "tweet liked");
+                                interacts[0] = true;
+
                             }
 
                             @Override
@@ -212,6 +214,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 btLike.setImageResource(R.drawable.ic_vector_heart_stroke);
                                 Log.i(Tag, "tweet luniked");
+                                interacts[0] = false;
+
                             }
 
                             @Override
@@ -232,6 +236,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 btRetweet.setImageResource(R.drawable.ic_vector_retweet);
                                 Log.i(Tag, "tweet rted");
+                                interacts[1]=true;
                             }
 
                             @Override
@@ -246,6 +251,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 btRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
                                 Log.i(Tag, "tweet un_rted");
+                                interacts[1] = false;
                             }
 
                             @Override
@@ -264,8 +270,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
 
                 }
             });
-            interacts[0] = false;
-            interacts[1] = false;
+
 
 
         }
