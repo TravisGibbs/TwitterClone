@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/DetailLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
@@ -17,7 +18,7 @@
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/Tweet"
+            android:id="@+id/Detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minLines="6"
@@ -89,7 +90,7 @@
         android:layout_marginBottom="0dp"
         android:layout_toEndOf="@+id/twtAtDetail"
         android:textSize="8sp"
-        tools:ignore="SmallSp"
+        tools:ignore="SmallSp,UnknownIdInLayout"
         tools:text="-date/here" />
 
     <ImageButton
@@ -101,6 +102,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="100dp"
         android:background="@drawable/background_border"
+        android:contentDescription="@string/like_symbol"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
@@ -113,20 +115,9 @@
         android:layout_marginEnd="50dp"
         android:layout_toStartOf="@+id/likeButtonDetail"
         android:background="@drawable/background_border"
+        android:contentDescription="@string/retweet_symbol"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_vector_retweet_stroke" />
-
-    <ImageButton
-        android:id="@+id/replyButtonDetail"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/twtBodyDetail"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="50dp"
-        android:layout_toStartOf="@+id/retweetButtonDetail"
-        android:background="@drawable/background_border"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_vector_compose" />
 
     <Button
         android:id="@+id/postButtonDetail"
@@ -136,6 +127,34 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:text="Button"
+        android:text="@string/Post"
         android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:id="@+id/rtNumDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/twtBodyDetail"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="328dp"
+        android:layout_toEndOf="@+id/retweetButtonDetail"
+        android:textSize="8sp"
+        tools:ignore="SmallSp"
+        tools:text="RtNum" />
+
+    <TextView
+        android:id="@+id/likeNumDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/twtBodyDetail"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="250dp"
+        android:layout_toEndOf="@+id/likeButtonDetail"
+        android:textSize="8sp"
+        tools:ignore="SmallSp"
+        tools:text="LikeNum" />
 </RelativeLayout>

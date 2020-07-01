@@ -31,6 +31,6 @@
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_vector_compose" />
+        app:srcCompat="@drawable/ic_baseline_create_24" />
 
 </RelativeLayout>

@@ -9,12 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.parceler.Parcels;
@@ -35,7 +33,7 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
         relativeLayout = findViewById(R.id.ComposeLayout);
 
-        evCompose = findViewById(R.id.Tweet);
+        evCompose = findViewById(R.id.TweetDetail);
         bttn = findViewById(R.id.Post);
 
         twitterClient = TwitterApp.getRestClient(this);

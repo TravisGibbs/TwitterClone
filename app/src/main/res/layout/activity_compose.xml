@@ -18,7 +18,7 @@
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/Tweet"
+            android:id="@+id/TweetDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minLines="6"

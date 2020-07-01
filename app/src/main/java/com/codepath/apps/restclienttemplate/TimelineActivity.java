@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +46,9 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar bar = getSupportActionBar();
+        bar.setDisplayShowHomeEnabled(true);
+        bar.setIcon(R.drawable.ic_launcher_twitter);
+        bar.setTitle(Html.fromHtml("<font color='#ffffff'>Twitter </font>"));
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1DA1F2")));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
@@ -114,7 +118,7 @@ public class TimelineActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.i(Tag,"fail for load more data");
             }
-        }, (long) tweets.get(tweets.size()-1).id);
+        }, tweets.get(tweets.size()-1).id);
 
     }
 
@@ -137,19 +141,21 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == reqCode && resultCode==RESULT_OK){
+            assert data != null;
             Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+
             tweets.add(0, tweet);
             adapter.notifyItemInserted(0);
-            rvTweets.scrollToPosition(0);
+            rvTweets.smoothScrollToPosition(0);
         }
     }
 
 
-    public void toDetail(Tweet tweet){
+    /*public void toDetail(Tweet tweet){
         Intent intent = new Intent(this, ComposeActivity.class);
         intent.putExtra("tweet", Parcels.wrap(tweet));
         startActivity(intent);
-    }
+    }*/
 
 
     private void popTimeline(){
@@ -160,7 +166,8 @@ public class TimelineActivity extends AppCompatActivity {
                 JSONArray jsonArray = json.jsonArray;
                 try {
                     adapter.clear();
-                    adapter.addAll(Tweet.fromJsonArr(jsonArray));
+                    tweets.addAll(Tweet.fromJsonArr(jsonArray));
+                    adapter.addAll(tweets);
                     swipeRefreshLayout.setRefreshing(false);
 
                 } catch (JSONException e) {

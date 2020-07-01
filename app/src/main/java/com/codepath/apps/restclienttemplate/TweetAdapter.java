@@ -34,8 +34,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     int radius = 80;
     int margin = 5;
     Context context;
-    List<Tweet> likedTweets;
-    List<Tweet> rtTweets;
     TwitterClient twitterClient;
     List<Tweet> tweets;
     String Tag = "TweetAdapter";
@@ -44,49 +42,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     public TweetAdapter(Context context, List<Tweet> tweets) {
         this.context = context;
         this.tweets = tweets;
-        likedTweets = new ArrayList<>();
-        rtTweets = new ArrayList<>();
         twitterClient = TwitterApp.getRestClient(context);
-        twitterClient.lookForLikedTweets(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                JSONArray jsonArray = json.jsonArray;
-                try {
-                    likedTweets.addAll(Tweet.fromJsonArr(jsonArray));
-                    Log.i(Tag,"liked tweets grabbed");
-
-                } catch (JSONException e) {
-                    Log.e(Tag, "JSON error");
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(Tag,"liked tweets fail");
-            }
-        });
-
-        twitterClient.lookForRtTweets(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                JSONArray jsonArray = json.jsonArray;
-                try {
-                    rtTweets.addAll(Tweet.fromJsonArr(jsonArray));
-                    Log.i(Tag,"rt tweets grabbed");
-
-                } catch (JSONException e) {
-                    Log.e(Tag, "JSON error");
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(Tag,"rt tweets fail");
-            }
-        });
-
 
     }
 
@@ -131,6 +87,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         TextView tvUser;
         TextView tvScreen;
         TextView tvCreated;
+        TextView tvLikes;
+        TextView tvRtNum;
         ImageButton btRetweet;
         ImageButton btLike;
         ImageButton btReply;
@@ -144,6 +102,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             tvBody = itemView.findViewById(R.id.twtBody);
             tvUser = itemView.findViewById(R.id.twtUser);
             tvScreen = itemView.findViewById(R.id.twtAt);
+            tvLikes = itemView.findViewById(R.id.TwtLikedNum);
+            tvRtNum = itemView.findViewById(R.id.TwtRtNum);
             tvCreated = itemView.findViewById(R.id.twtCreated);
             btRetweet = itemView.findViewById(R.id.retweetButton);
             btLike = itemView.findViewById(R.id.likeButton);
@@ -156,27 +116,22 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             //editor encounters error when I try to make these boolean
 
 
-            final Boolean[] interacts = {false, false};
-
-            for(int i = 0; i<likedTweets.size(); i++){
-                if(likedTweets.get(i).id==tweet.id){
-                    interacts[0] = true;
-                    btLike.setImageResource(R.drawable.ic_vector_heart);
-                }
-            }
-            for(int i = 0; i<rtTweets.size(); i++){
-                if(rtTweets.get(i).id==tweet.id){
-                    interacts[1] = true;
-                    btRetweet.setImageResource(R.drawable.ic_vector_retweet);
-                }
-            }
-
-
             tvBody.setText(tweet.body);
             tvScreen.setText("@" + tweet.user.screenName);
             tvCreated.setText(tweet.createdAt);
             tvUser.setText(tweet.user.name);
+            tvLikes.setText(String.valueOf(tweet.likedByNum));
+            tvRtNum.setText(String.valueOf(tweet.retweetedByNum));
             Glide.with(context).load(tweet.user.privateImgURL).transform(new RoundedCornersTransformation(radius, margin)).into(ivView);
+
+            if(tweet.liked){
+                btLike.setImageResource(R.drawable.ic_vector_heart);
+            }
+
+            if(tweet.rted){
+                btRetweet.setImageResource(R.drawable.ic_vector_retweet);
+            }
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -191,14 +146,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             btLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!interacts[0]) {
+                    if (!tweet.liked) {
                         twitterClient.likeTweet(new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 btLike.setImageResource(R.drawable.ic_vector_heart);
                                 Log.i(Tag, "tweet liked");
-                                interacts[0] = true;
-
+                                tweet.liked = true;
+                                tvLikes.setText(String.valueOf(tweet.likedByNum+1));
+                                tweet.likedByNum = tweet.likedByNum+1;
                             }
 
                             @Override
@@ -213,14 +169,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 btLike.setImageResource(R.drawable.ic_vector_heart_stroke);
-                                Log.i(Tag, "tweet luniked");
-                                interacts[0] = false;
-
+                                Log.i(Tag, "tweet unliked");
+                                tweet.liked=false;
+                                tvLikes.setText(String.valueOf(tweet.likedByNum-1));
+                                tweet.likedByNum = tweet.likedByNum-1;
                             }
 
                             @Override
                             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.e(Tag, "like failed", throwable);
+                                Log.e(Tag, "unlike failed", throwable);
                             }
                         }, tweet);
                     }
@@ -230,13 +187,16 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             btRetweet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!interacts[1]){
+
+                    if(!tweet.rted){
                         twitterClient.rtTweet(new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 btRetweet.setImageResource(R.drawable.ic_vector_retweet);
                                 Log.i(Tag, "tweet rted");
-                                interacts[1]=true;
+                                tweet.rted = true;
+                                tvRtNum.setText(String.valueOf(tweet.retweetedByNum+1));
+                                tweet.retweetedByNum = tweet.retweetedByNum+1;
                             }
 
                             @Override
@@ -251,12 +211,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 btRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
                                 Log.i(Tag, "tweet un_rted");
-                                interacts[1] = false;
+                                tweet.rted = false;
+                                tvRtNum.setText(String.valueOf(tweet.retweetedByNum-1));
+                                tweet.retweetedByNum = tweet.retweetedByNum-1;
                             }
 
                             @Override
                             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.e(Tag,"fail rted", throwable);
+                                Log.e(Tag,"fail unrted ", throwable);
                             }
                         },tweet);
 

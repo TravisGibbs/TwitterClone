@@ -21,7 +21,7 @@
         <item name="colorPrimaryDark">@color/twtBlue</item>
         <item name="colorSecondary">@color/twtBlue</item>
         <item name="colorError">#F44336</item>
-        <item name="android:colorBackground">@color/whiteS</item>
+        <item name="android:colorBackground">#FFFFFF</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
