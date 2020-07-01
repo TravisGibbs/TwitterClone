@@ -83,6 +83,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivView;
+        ImageView twtivView;
         TextView tvBody;
         TextView tvUser;
         TextView tvScreen;
@@ -92,6 +93,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         ImageButton btRetweet;
         ImageButton btLike;
         ImageButton btReply;
+
         TimelineActivity timelineActivity;
 
 
@@ -99,6 +101,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivView = itemView.findViewById(R.id.userPic);
+            twtivView = itemView.findViewById(R.id.image);
             tvBody = itemView.findViewById(R.id.twtBody);
             tvUser = itemView.findViewById(R.id.twtUser);
             tvScreen = itemView.findViewById(R.id.twtAt);
@@ -108,6 +111,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             btRetweet = itemView.findViewById(R.id.retweetButton);
             btLike = itemView.findViewById(R.id.likeButton);
             btReply = itemView.findViewById(R.id.replyButton);
+            twtivView = itemView.findViewById(R.id.image);
+
         }
 
         @SuppressLint("SetTextI18n")
@@ -122,6 +127,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             tvUser.setText(tweet.user.name);
             tvLikes.setText(String.valueOf(tweet.likedByNum));
             tvRtNum.setText(String.valueOf(tweet.retweetedByNum));
+            if(!tweet.imagePath.isEmpty()){
+                Glide.with(context).load(tweet.imagePath).into(twtivView);
+            }
+            else{
+                twtivView.setVisibility(View.GONE);
+            }
             Glide.with(context).load(tweet.user.privateImgURL).transform(new RoundedCornersTransformation(radius, margin)).into(ivView);
 
             if(tweet.liked){
@@ -229,7 +240,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             btReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(context, ComposeActivity.class);
+                    intent.putExtra("replyTo", tweet.user.screenName);
+                    startActivity(context, intent, null);
                 }
             });
 

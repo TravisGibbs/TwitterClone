@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -40,6 +41,7 @@ public class TimelineActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     EndlessRecyclerViewScrollListener scrollListener;
     FloatingActionButton floatingActionButton;
+
     private final int reqCode =  27;
 
 
@@ -132,6 +134,7 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (R.id.Compose==item.getItemId()){
             Intent intent = new Intent(this, ComposeActivity.class);
+            intent.putExtra("replyTo", "");
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -158,7 +161,10 @@ public class TimelineActivity extends AppCompatActivity {
     }*/
 
 
+
     private void popTimeline(){
+        final ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
         client.getHomeTimeLine(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -168,6 +174,8 @@ public class TimelineActivity extends AppCompatActivity {
                     adapter.clear();
                     tweets.addAll(Tweet.fromJsonArr(jsonArray));
                     adapter.addAll(tweets);
+//                    pb.setVisibility(ProgressBar.INVISIBLE);
+
                     swipeRefreshLayout.setRefreshing(false);
 
                 } catch (JSONException e) {

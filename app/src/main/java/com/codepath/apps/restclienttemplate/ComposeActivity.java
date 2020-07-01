@@ -1,9 +1,13 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,11 +34,17 @@ public class ComposeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar bar = getSupportActionBar();
+        bar.setDisplayShowHomeEnabled(true);
+        bar.setIcon(R.drawable.ic_launcher_twitter);
+        bar.setTitle(Html.fromHtml("<font color='#ffffff'>Twitter </font>"));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1DA1F2")));
         setContentView(R.layout.activity_compose);
         relativeLayout = findViewById(R.id.ComposeLayout);
 
         evCompose = findViewById(R.id.TweetDetail);
         bttn = findViewById(R.id.Post);
+        evCompose.setText(String.format("@ %s", getIntent().getStringExtra("replyTo")));
 
         twitterClient = TwitterApp.getRestClient(this);
 

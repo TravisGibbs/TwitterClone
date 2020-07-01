@@ -3,6 +3,8 @@ package com.codepath.apps.restclienttemplate.models;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import com.facebook.stetho.inspector.jsonrpc.JsonRpcException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,7 @@ public class Tweet {
     public int retweetedByNum;
     public boolean liked;
     public boolean rted;
+    public String imagePath;
     public static Tweet fromJson(JSONObject jObj) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.body = jObj.getString("text");
@@ -32,7 +35,14 @@ public class Tweet {
         tweet.rted = jObj.getBoolean("retweeted");
         tweet.retweetedByNum = jObj.getInt("retweet_count");
         tweet.likedByNum = jObj.getInt("favorite_count");
-
+        try {
+            JSONObject jsonObject = jObj.getJSONObject("entities");
+            JSONArray jsonArray = jsonObject.getJSONArray("media");
+            tweet.imagePath = jsonArray.getJSONObject(0).getString("media_url_https");
+        } catch (JSONException e) {
+            tweet.imagePath = "";
+        }
+        Log.i("tag",tweet.imagePath);
         return tweet;
     }
 

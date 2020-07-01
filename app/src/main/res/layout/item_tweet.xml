@@ -76,7 +76,7 @@
         android:id="@+id/likeButton"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_below="@+id/twtBody"
+        android:layout_below="@+id/image"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="100dp"
@@ -89,7 +89,7 @@
         android:id="@+id/retweetButton"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_below="@+id/twtBody"
+        android:layout_below="@+id/image"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="50dp"
         android:layout_toStartOf="@+id/likeButton"
@@ -102,24 +102,24 @@
         android:id="@+id/replyButton"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_below="@+id/twtBody"
+        android:layout_below="@+id/image"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="50dp"
         android:layout_toStartOf="@+id/retweetButton"
         android:background="@drawable/background_border"
         android:contentDescription="@string/reply_symbol"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_vector_compose" />
+        app:srcCompat="@drawable/ic_vector_compose_black" />
 
     <TextView
         android:id="@+id/TwtRtNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/twtBody"
+        android:layout_below="@+id/image"
         android:layout_marginStart="-50dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="13dp"
         android:layout_toEndOf="@+id/retweetButton"
-        android:textSize="8sp"
+        android:textSize="12sp"
         tools:ignore="SmallSp"
         tools:text="RtNum" />
 
@@ -127,12 +127,24 @@
         android:id="@+id/TwtLikedNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/twtBody"
+        android:layout_below="@+id/image"
         android:layout_marginStart="-100dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="13dp"
         android:layout_toEndOf="@+id/likeButton"
-        android:textSize="8sp"
-        tools:text="LikedNum"
-        tools:ignore="SmallSp" />
+        android:textSize="12sp"
+        tools:ignore="SmallSp"
+        tools:text="LikedNum" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/twtBody"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@+id/userPic"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </RelativeLayout>

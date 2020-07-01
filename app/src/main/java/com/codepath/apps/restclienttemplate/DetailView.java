@@ -1,5 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -8,9 +10,11 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +34,7 @@ public class DetailView extends AppCompatActivity {
     int margin = 5;
     String Tag;
     ImageView ivView;
+    ImageView tweetImage;
     TextView tvBody;
     TextView tvUser;
     TextView tvScreen;
@@ -50,7 +55,9 @@ public class DetailView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
+        ActionBar bar = getSupportActionBar();
         ivView = findViewById(R.id.userPicDetail);
+        tweetImage = findViewById(R.id.tweetImage);
         tvBody = findViewById(R.id.twtBodyDetail);
         tvUser = findViewById(R.id.twtUserDetail);
         tvScreen = findViewById(R.id.twtAtDetail);
@@ -67,7 +74,6 @@ public class DetailView extends AppCompatActivity {
 
 
         tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
-        Log.i(Tag, tweet.body);
         tvBody.setText(tweet.body);
         //tvScreen.setText("@" + tweet.user.screenName);
         tvCreated.setText(tweet.createdAt);
@@ -75,7 +81,14 @@ public class DetailView extends AppCompatActivity {
         tvLikes.setText(String.valueOf(tweet.likedByNum));
         tvRtNum.setText(String.valueOf(tweet.retweetedByNum));
         Glide.with(this).load(tweet.user.privateImgURL).transform(new RoundedCornersTransformation(radius, margin)).into(ivView);
-        tvReply.setText(String.format("@%s", tweet.user.screenName));
+        tvReply.setText(String.format("@ %s", tweet.user.screenName));
+
+        if(!tweet.imagePath.isEmpty()){
+            Glide.with(this).load(tweet.imagePath).into(tweetImage);
+        }
+        else{
+            tweetImage.setVisibility(View.GONE);
+        }
 
         if(tweet.liked){
             btLike.setImageResource(R.drawable.ic_vector_heart);

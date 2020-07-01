@@ -21,6 +21,12 @@
                 android:layout_marginTop="0dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ComposeButton"
         android:layout_width="100dp"
@@ -31,6 +37,6 @@
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_baseline_create_24" />
+        app:srcCompat="@drawable/ic_vector_compose" />
 
 </RelativeLayout>
