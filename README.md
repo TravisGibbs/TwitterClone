@@ -53,6 +53,10 @@ Here is another one demostrating infinite scrolling:
 
 <img src='https://github.com/TravisGibbs/TwitterClone/blob/master/Kapture%202020-07-02%20at%2014.19.53.gif?raw=true' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
+Heres anoother one demonnstrating the refresh feature
+
+<img src='https://github.com/TravisGibbs/TwitterClone/blob/master/Kapture%202020-07-06%20at%209.03.04.gif?raw=true' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
